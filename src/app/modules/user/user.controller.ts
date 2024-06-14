@@ -9,6 +9,7 @@ const createUser= async (req:Request,res:Response)=>{
         const result = await userService.userDataDB(zodValidationParse);
         res.status(200).json({
             success:true,
+            statusCode: 200,
             message:"user create successfully",
             data:result,
         })
