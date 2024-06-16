@@ -1,3 +1,4 @@
+import { slotRoute } from './app/modules/slot/slot.route';
 
 import config from "./app/config"
 import cors from 'cors';
@@ -14,6 +15,7 @@ app.use(cors());
 app.use('/app',userRouter)
 app.use('/app',LoginRouter)
 app.use('/app',serviceRouter)
+app.use('/app',slotRoute)
 
 app.get('/', (req:Request, res:Response,) => {
   res.send('Hello World!')

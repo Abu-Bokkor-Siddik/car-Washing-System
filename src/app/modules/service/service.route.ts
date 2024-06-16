@@ -46,6 +46,6 @@ router.post(
 );
 router.get('/services/:id', allController.singleServiceController);
 router.delete('/services/:id', allController.deleteServiceController);
-router.put('/services/:id', allController.updateServiceController);
+router.put('/services/:id',authentic('admin'), allController.updateServiceController);
 router.get('/services', allController.allServiceController);
 export const serviceRouter = router;
