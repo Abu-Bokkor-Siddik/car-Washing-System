@@ -1,12 +1,14 @@
-import { Request, Response } from "express"
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { NextFunction, Request, Response } from "express"
 import { userService } from "./user.service"
 import { userValidation } from "./user.validation";
 
-const createUser= async (req:Request,res:Response)=>{
+const createUser= async (req:Request,res:Response,next:NextFunction)=>{
     try {
         // zod validation here .. some todo 
-        const zodValidationParse = userValidation.userDataValidation.parse(req.body)
-        const result = await userService.userDataDB(zodValidationParse);
+        // const zodValidationParse = userValidation.userDataValidation.parse(req.body)
+        // test todo 
+        const result = await userService.userDataDB(req.body);
         res.status(200).json({
             success:true,
             statusCode: 200,
@@ -14,7 +16,7 @@ const createUser= async (req:Request,res:Response)=>{
             data:result,
         })
     } catch (error) {
-        console.log(error)
+        next(error)
     }
 }
 

@@ -1,8 +1,10 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { allServiceHere } from './service.service';
 import { serviceValidation } from './service.validation';
+import ResponseError from '../../../error/response.error';
+import { DataNotFound } from '../../../error/test.error';
 // create service
-const serviceController = async (req: Request, res: Response) => {
+const serviceController = async (req: Request, res: Response,next:NextFunction) => {
   try {
     const zodValidationParse = serviceValidation.zodValidationService.parse(
       req.body
@@ -15,15 +17,20 @@ const serviceController = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    console.log(error);
+   next(error)
   }
 };
 // get single service
-const singleServiceController = async (req: Request, res: Response) => {
+const singleServiceController = async (req: Request, res: Response,next:NextFunction) => {
   try {
     const { id } = req.params;
 
     const result = await allServiceHere.singleService(id);
+    // if data not found 
+    if (!result) {
+
+      const Data = DataNotFound() 
+    }
     res.status(200).json({
       success: true,
       statusCode: 200,
@@ -31,7 +38,7 @@ const singleServiceController = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    console.log(error);
+   next(error)
   }
 };
 // get all services 
@@ -45,7 +52,7 @@ const allServiceController = async(req:Request,res:Response)=>{
             data: result,
           });
     } catch (error) {
-       console.log(error) 
+      throw new ResponseError(400,'not found data')
     }
 }
 // delete service 
