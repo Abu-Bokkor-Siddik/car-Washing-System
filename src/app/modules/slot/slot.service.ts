@@ -1,7 +1,6 @@
 /* eslint-disable prefer-const */
-import { SlotType} from './slot.interface';
+import { SlotType } from './slot.interface';
 import { SlotModel } from './slot.model';
-
 const slotCreateService = async (payload: SlotType) => {
   const { service, date, startTime, endTime } = payload;
   // convert in to number .
@@ -10,9 +9,7 @@ const slotCreateService = async (payload: SlotType) => {
 
   const endInNumber =
     Number(endTime.split(':')[0]) * 60 + Number(endTime.split(':')[1]);
-
-  // calcluate
-
+  // calculate
   let emptySlot: SlotType[] = [];
   for (
     let startNumber = startInNumber;
@@ -35,17 +32,39 @@ const slotCreateService = async (payload: SlotType) => {
       date: date,
       startTime: slotStartTime,
       endTime: slotEndTime,
-      isBooked:"available",
+      isBooked: 'available',
     };
     emptySlot.push(newSlotData);
   }
-//   return emptySlot
-// console.log(emptySlot)
-  // console.log(startInNumber,endInNumber)
   const result = await SlotModel.insertMany(emptySlot);
+  return result;
+};
+// get slot service
+const getAllSlot = async (query: Record<string, unknown>) => {
+  const queryObj = { ...query };
+  let dates: string = '';
+  if (query?.date) {
+    dates = query?.date as string;
+  }
+  // get
+  const slot = 'available';
+  const findAvailable = SlotModel.find({ isBooked: slot }).populate('service');
+  const searchData = findAvailable.find({
+    date: { $regex: dates },
+  });
+  // delete data form queryObj
+  const remove = ['date'];
+  remove.forEach((value) => delete queryObj[value]);
 
+  let serviceIdRemove = {};
+  if (queryObj.serviceId) {
+    serviceIdRemove = { service: queryObj.serviceId };
+  }
+  const result = await searchData.find(serviceIdRemove);
+  // console.log(result)
   return result;
 };
 export const allService = {
   slotCreateService,
+  getAllSlot,
 };

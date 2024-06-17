@@ -7,7 +7,9 @@ export const DataNotFound = () => {
     statusCode,
     message: 'Data not Found',
     data: [],
+    
   };
+  
 };
 export const middleWarleError = (req:Request,res:Response,next:NextFunction) => {
  
