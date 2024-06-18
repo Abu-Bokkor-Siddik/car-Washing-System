@@ -30,5 +30,8 @@ const bookingSchema = new Schema<BookingType>({
         required:true
     }
 
+},{
+    timestamps:true,
 })
+
 export const BookingModel = model<BookingType>("booking",bookingSchema)
