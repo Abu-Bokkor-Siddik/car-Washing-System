@@ -54,14 +54,13 @@ const getAllSlot = async (query: Record<string, unknown>) => {
   });
   // delete data form queryObj
   const remove = ['date'];
+  // function
   remove.forEach((value) => delete queryObj[value]);
-
   let serviceIdRemove = {};
   if (queryObj.serviceId) {
     serviceIdRemove = { service: queryObj.serviceId };
   }
   const result = await searchData.find(serviceIdRemove);
-  // console.log(result)
   return result;
 };
 export const allService = {

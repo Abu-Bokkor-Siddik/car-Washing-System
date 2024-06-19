@@ -19,6 +19,7 @@ const slotSchema = new Schema <SlotType>({
     },
     isBooked:{
         type:String,
+        
     }
 })
 

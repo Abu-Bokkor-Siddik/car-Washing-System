@@ -1,5 +1,5 @@
-import ResponseError from "../../../error/response.error";
-import { DataNotFound } from "../../../error/test.error";
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ServiceType } from "./service.interface";
 import { ServiceModel } from "./service.model";
 
@@ -9,6 +9,7 @@ const serviceCreate = async(payload:ServiceType)=>{
 }
 // get single service 
 const singleService = async(_id:string)=>{
+    
     const result = await ServiceModel.findOne({_id})
     
     return result;
@@ -35,12 +36,6 @@ const deleteService = async(_id:string)=>{
         const result = await ServiceModel.deleteOne({_id})
         // delete update 
         
-  
-    // todo global error handle
-
-    // if (!result) {
-    //     throw new Error('not found')
-    // }
     return updateIsDeleted;
 }
 export const allServiceHere= {

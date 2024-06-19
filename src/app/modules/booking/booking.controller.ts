@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextFunction, Request, Response } from "express";
 import { bookingService } from "./booking.service";
 import { JwtPayload } from "jsonwebtoken";
@@ -24,7 +26,7 @@ const bookingCreateController = async (
               const { email, role } = verityToken as JwtPayload;
               // console.log(email)
               
-      const result = await bookingService.bookingDataDB(zodValidationParses,email);
+      const result = await bookingService.bookingDataDB(zodValidationParses,email,res,next);
      
       res.status(200).json({
         success: true,

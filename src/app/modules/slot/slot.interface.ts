@@ -5,12 +5,5 @@ import { Types } from "mongoose"
     date:string,
     startTime:string,
     endTime:string,
-    isBooked?: string,
+    isBooked?: string |undefined,
 }
-//  export type SlotTypeResponse ={
-//     service:Types.ObjectId,
-//     date:string,
-//     startTime:string,
-//     endTime:string,
-    
-// }

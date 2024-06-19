@@ -3,7 +3,7 @@ import { StoreType } from './booking.interface';
 import { UserType } from '../user/user.interface';
 import { ServiceType } from '../service/service.interface';
 import { SlotType } from '../slot/slot.interface';
-import { string } from 'zod';
+
 // customer
 const customerSchema = new Schema<UserType>({
   name: {
@@ -15,10 +15,7 @@ const customerSchema = new Schema<UserType>({
     required: true,
     
   },
-  password: {
-    type: String,
-    required: true,
-  },
+  
   phone: {
     type: String,
     required: true,
@@ -105,4 +102,14 @@ const storeSchema = new Schema<StoreType>({
         required:true
     }
 })
+// storeSchema.pre('save',async function(next){
+//   const isExists = await StoreModel.findOne({
+//    slot:this.slot
+   
+//   });
+//   if (isExists) {
+//     throw new Error(' already Booking !')
+//   }
+//   next()
+// })
 export const StoreModel = model<StoreType>("booking",storeSchema)

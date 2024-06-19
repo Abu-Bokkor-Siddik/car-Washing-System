@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-
 import { allService } from './slot.service';
 import { zodValidationSlotCreate } from './slot.validation';
 
@@ -17,7 +16,7 @@ const slotCreateController = async (
     res.status(200).json({
       success: true,
       statusCode: 200,
-      message: 'slot created successfully',
+      message: 'Slots created successfully',
       data: result,
     });
   } catch (error) {

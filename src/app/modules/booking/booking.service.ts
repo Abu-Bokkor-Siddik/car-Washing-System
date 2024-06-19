@@ -5,9 +5,10 @@ import { UserModel } from '../user/user.model';
 import { BookingType } from './booking.interface';
 import ResponseError from '../../../error/response.error';
 import { StoreModel } from './booking.store.modle';
+import { NextFunction, Response } from 'express';
 
 
-const bookingDataDB = async (payload: BookingType, email: string) => {
+const bookingDataDB = async (payload: BookingType, email: string,res:Response,next:NextFunction) => {
   // transaction start ...
   const session = await mongoose.startSession();
   session.startTransaction();
@@ -15,29 +16,34 @@ const bookingDataDB = async (payload: BookingType, email: string) => {
     const user = await UserModel.findOne({ email }).session(session);
 
     if (!user) {
-      throw new ResponseError(404, 'error user not create');
+      throw new ResponseError(404,'user not exist ')
+      
     }
 
     const service = await ServiceModel.findById({
       _id: payload?.serviceId,
     }).session(session);
     if (!service) {
-      throw new ResponseError(404, 'error service not create');
+      throw new ResponseError(404,'service id not ok please check it ')
     }
 
-    const slot = await SlotModel.findById({ _id: payload?.slotId }).session(
+    const slot = await SlotModel.findByIdAndUpdate({ _id: payload?.slotId },{
+      $set: {
+        'isBooked':'booked',
+      },
+    },
+    { new: true }).session(
       session
     );
 
     if (!slot) {
-      throw new ResponseError(404, 'error slot not update');
+      throw new ResponseError(404,'slot id not ok please check it ')
     }
 
     const data = await {
       customer: {
         name: user?.name,
         email: user?.email,
-        password: user?.password,
         phone: user?.phone,
         role: user?.role,
         address: user?.address,
@@ -54,7 +60,7 @@ const bookingDataDB = async (payload: BookingType, email: string) => {
         date: slot?.date,
         startTime: slot?.startTime,
         endTime: slot?.endTime,
-        isBooked: 'booked',
+        isBooked: slot?.isBooked,
       },
       vehicleType: payload?.vehicleType,
       vehicleBrand: payload?.vehicleBrand,
@@ -68,7 +74,7 @@ const bookingDataDB = async (payload: BookingType, email: string) => {
     await session.endSession();
     return result;
   } catch (error) {
-   console.log(error);
+   next(error);
   }
 };
 // get all booking slot  

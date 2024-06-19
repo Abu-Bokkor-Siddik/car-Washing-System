@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { allServiceHere } from './service.service';
 import { serviceValidation } from './service.validation';
-import ResponseError from '../../../error/response.error';
-import { DataNotFound } from '../../../error/test.error';
 // create service
 const serviceController = async (req: Request, res: Response,next:NextFunction) => {
   try {
@@ -24,12 +22,14 @@ const serviceController = async (req: Request, res: Response,next:NextFunction) 
 const singleServiceController = async (req: Request, res: Response,next:NextFunction) => {
   try {
     const { id } = req.params;
-
     const result = await allServiceHere.singleService(id);
-    // if data not found 
     if (!result) {
-
-      const Data = DataNotFound() 
+      res.status(404).json({
+        success: false,
+        statusCode: 404,
+        message: 'service not Found',
+        
+      });
     }
     res.status(200).json({
       success: true,
@@ -42,9 +42,18 @@ const singleServiceController = async (req: Request, res: Response,next:NextFunc
   }
 };
 // get all services 
-const allServiceController = async(req:Request,res:Response)=>{
+const allServiceController = async(req:Request,res:Response,next:NextFunction)=>{
     try {
         const result = await allServiceHere.allServices()
+        // if data not found  todo 
+    if (result.length===0) {
+      res.status(404).json({
+        success: false,
+        statusCode: 404,
+        message: 'Service not Found',
+        data: [],
+      });
+    }
         res.status(200).json({
             success: true,
             statusCode: 200,
@@ -52,14 +61,22 @@ const allServiceController = async(req:Request,res:Response)=>{
             data: result,
           });
     } catch (error) {
-      throw new ResponseError(400,'not found data')
+     next(error)
     }
 }
 // delete service 
-const deleteServiceController = async(req:Request,res:Response)=>{
+const deleteServiceController = async(req:Request,res:Response,next:NextFunction)=>{
     try {
         const {id}=req.params;
         const result= await allServiceHere.deleteService(id)
+        if (!result) {
+          res.status(404).json({
+            success: false,
+            statusCode: 404,
+            message: 'service not Found',
+            
+          });
+        }
         res.status(200).json({
             success: true,
             statusCode: 200,
@@ -67,14 +84,22 @@ const deleteServiceController = async(req:Request,res:Response)=>{
             data: result,
           });
     } catch (error) {
-        console.log(error)
+        next(error)
     }
 }
-const updateServiceController = async(req:Request,res:Response)=>{
+const updateServiceController = async(req:Request,res:Response,next:NextFunction)=>{
     try {
         const {id}=req.params;
         const payload= req.body;
         const result= await allServiceHere.updateService(id,payload)
+        if (!result) {
+          res.status(404).json({
+            success: false,
+            statusCode: 404,
+            message: 'service not Found',
+            
+          });
+        }
         res.status(200).json({
             success: true,
             statusCode: 200,
@@ -82,7 +107,7 @@ const updateServiceController = async(req:Request,res:Response)=>{
             data: result,
           });
     } catch (error) {
-        console.log(error)
+        next(error)
     }
 }
 export const allController = {
