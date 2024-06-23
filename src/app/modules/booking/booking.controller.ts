@@ -33,15 +33,18 @@ const bookingCreateController = async (
         statusCode: 200,
         message: 'booking created successfully',
         data: result,
-      });
+      }); 
     } catch (error) {
       next(error);
     }
   };
 // all booking slot here 
-const allBookingSlotController = async(req:Request,res:Response,)=>{
+const allBookingSlotController = async(req:Request,res:Response,next: NextFunction)=>{
   try {
       const result = await bookingService.allBookingSlot()
+      if (result.length===0) {
+       throw new ResponseError(404,'not found booking data')
+      }
       res.status(200).json({
           success: true,
           statusCode: 200,
@@ -49,7 +52,7 @@ const allBookingSlotController = async(req:Request,res:Response,)=>{
           data: result,
         });
   } catch (error) {
-    throw new ResponseError(400,'not found data')
+    next(error)
   }
 }
 // get user booking controller 
