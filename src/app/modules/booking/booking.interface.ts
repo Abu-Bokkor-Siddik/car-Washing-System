@@ -8,8 +8,17 @@ export type BookingType ={
     vehicleType:string,
     vehicleBrand:string,
     vehicleModel:string,
-    manufacturingYear:number,
-    registrationPlate:string
+    manufacturingYear:string,
+    registrationPlate:string,
+    date:string,
+    duration:string,
+    endTime:string,
+    startTime:string,
+    isBooked:string,
+    price:string,
+    name:string,
+    email:string,
+    transactionId:string
 }
 
 export type StoreType ={

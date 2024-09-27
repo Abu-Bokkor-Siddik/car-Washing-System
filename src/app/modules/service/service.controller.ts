@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, query, Request, Response } from 'express';
 import { allServiceHere } from './service.service';
 import { serviceValidation } from './service.validation';
 // create service
@@ -44,7 +44,7 @@ const singleServiceController = async (req: Request, res: Response,next:NextFunc
 // get all services 
 const allServiceController = async(req:Request,res:Response,next:NextFunction)=>{
     try {
-        const result = await allServiceHere.allServices()
+        const result = await allServiceHere.allServices(req.query)
         // if data not found  todo 
     if (result.length===0) {
       res.status(404).json({

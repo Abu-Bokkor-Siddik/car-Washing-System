@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { UserType } from "./user.interface";
+import { ReviewType, UserType } from "./user.interface";
 
 import bcrypt from 'bcrypt'
 
@@ -43,3 +43,24 @@ this.password= await bcrypt.hash(
 next()
 })
 export const UserModel = model<UserType>('user',userSchema)
+
+const ReviewSchema = new Schema<ReviewType>({
+    ratingValue:{
+        type:Number,
+        required:true
+    },
+    feedBack:{
+        type:String,
+        required:true,
+        
+    },
+    userEmail:{
+        type:String,
+        required:true
+    },
+    
+},
+{
+    timestamps:true
+});
+export const ReviewModel = model<ReviewType>('review',ReviewSchema)

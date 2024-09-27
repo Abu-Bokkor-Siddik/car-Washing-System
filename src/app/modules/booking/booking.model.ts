@@ -22,16 +22,50 @@ const bookingSchema = new Schema<BookingType>({
         required:true
     },
     manufacturingYear:{
-        type:Number,
+        type:String,
         required:true
     },
     registrationPlate:{
         type:String,
         required:true
-    }
+    },
+    // date,
+    // duration,
+    // endTime,
+    // startTime,
+    // isBooked,
+    // price
+    date:{
+        type:String,
+    },
+    duration:{
+        type:String,
+    },
+    endTime:{
+        type:String,
+    },
+    startTime:{
+        type:String,
+    },
+    isBooked:{
+        type:String,
+    },
+    price:{
+        type:String,
+    },
+    name:{
+        type:String,
+    },
+    email:{
+        type:String,
+    },
+    transactionId:{
+        type:String,
+    },
+    
 
 },{
     timestamps:true,
 })
 
-export const BookingModel = model<BookingType>("booking",bookingSchema)
+export const BookingModels = model<BookingType>("bookings",bookingSchema)

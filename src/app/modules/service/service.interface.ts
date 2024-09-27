@@ -1,7 +1,7 @@
 export type ServiceType ={
     name:string;
     description:string;
-    price:number;
-    duration:number;
+    price:string;
+    duration:string;
     isDeleted:boolean;
 }

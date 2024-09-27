@@ -40,11 +40,11 @@ const servicesSchema = new Schema<ServiceType>(
       required: true,
     },
     price: {
-      type: Number,
+      type: String,
       required: true,
     },
     duration: {
-      type: Number,
+      type: String,
       required: true,
     },
     isDeleted: {

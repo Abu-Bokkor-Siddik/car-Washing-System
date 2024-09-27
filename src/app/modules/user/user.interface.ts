@@ -6,3 +6,8 @@ export type UserType={
     role:'user'|'admin';
     address:string;
 }
+export type ReviewType={
+    ratingValue:number;
+    feedBack:string;
+    userEmail:string;
+}

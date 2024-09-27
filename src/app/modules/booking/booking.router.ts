@@ -7,6 +7,7 @@ const router= express.Router();
 
 router.post('/bookings',authentic('user'),allBookingController.bookingCreateController)
 router.get('/bookings', authentic('admin'),allBookingController.allBookingSlotController);
-router.get('/my-bookings', authentic('user'),allBookingController.userBookingController);
+// router.get('/my-bookings', authentic('user'),allBookingController.userBookingController);
+router.get('/bookings/:email',allBookingController.UserBookedContoller);
 
 export const bookingRouter = router;

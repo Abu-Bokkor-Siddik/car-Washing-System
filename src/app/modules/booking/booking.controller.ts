@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 import config from "../../config";
 import ResponseError from "../../../error/response.error";
 import { bookingValidation } from "./booking.validation";
+import { z } from "zod";
 
 const bookingCreateController = async (
     req: Request,
@@ -14,9 +15,11 @@ const bookingCreateController = async (
     next: NextFunction
   ) => {
     try {
-      const zodValidationParses = bookingValidation.zodValidationBookingService.parse(
+      const {serviceId,slotId,...payload} = bookingValidation.zodValidationBookingService.parse(
         req.body
       );
+
+     
     const token = req.headers.authorization?.split(' ')[1];
       const verityToken = jwt.verify(
                 token as string,
@@ -25,8 +28,8 @@ const bookingCreateController = async (
               // console.log(verityToken)
               const { email, role } = verityToken as JwtPayload;
               // console.log(email)
-              
-      const result = await bookingService.bookingDataDB(zodValidationParses,email,res,next);
+              console.log(serviceId,slotId,'zod or payload')
+      const result = await bookingService.bookingDataDB(payload,email,res,next,serviceId,slotId);
      
       res.status(200).json({
         success: true,
@@ -56,35 +59,56 @@ const allBookingSlotController = async(req:Request,res:Response,next: NextFuncti
   }
 }
 // get user booking controller 
-const userBookingController = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-  const token = req.headers.authorization?.split(' ')[1];
-    const verityToken = jwt.verify(
-              token as string,
-              config.jwt_token as string
-            );
-            // console.log(verityToken)
-            const { email, role } = verityToken as JwtPayload;
-            // console.log(email)
+// const userBookingController = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   try {
+//   const token = req.headers.authorization?.split(' ')[1];
+//     const verityToken = jwt.verify(
+//               token as string,
+//               config.jwt_token as string
+//             );
+//             // console.log(verityToken)
+//             const { email, role } = verityToken as JwtPayload;
+//             // console.log(email)
             
-    const result = await bookingService.userBookingSlot(email);
+//     const result = await bookingService.userBookingSlot(email);
    
-    res.status(200).json({
-      success: true,
-      statusCode: 200,
-      message: 'booking created successfully',
-      data: result,
-    });
+//     res.status(200).json({
+//       success: true,
+//       statusCode: 200,
+//       message: 'booking created successfully',
+//       data: result,
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+const UserBookedContoller = async(req:Request,res:Response,next:NextFunction)=>{
+  try {
+      const {email}=req.params;
+      // console.log(req.params)
+      // console.log(email)
+    // const {email}=req.body
+      const result= await bookingService.UserBooking(email)
+      if (result.length===0) {
+        throw new ResponseError(404,'not found booking data')
+       }
+      res.status(200).json({
+          success: true,
+          statusCode: 200,
+          message: 'booking found successfully',
+          data: result,
+        });
   } catch (error) {
-    next(error);
+      next(error)
   }
-};
+}
   export const allBookingController ={
     bookingCreateController,
     allBookingSlotController,
-    userBookingController,
+    // userBookingController,
+    UserBookedContoller
   }

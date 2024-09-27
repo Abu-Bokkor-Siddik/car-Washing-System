@@ -48,7 +48,7 @@ const getAllSlot = async (query: Record<string, unknown>) => {
   }
   // get
   const slot = 'available';
-  const findAvailable = SlotModel.find({ isBooked: slot }).populate('service');
+  const findAvailable = SlotModel.find().populate('service');
   const searchData = findAvailable.find({
     date: { $regex: dates },
   });
@@ -60,10 +60,25 @@ const getAllSlot = async (query: Record<string, unknown>) => {
   if (queryObj.serviceId) {
     serviceIdRemove = { service: queryObj.serviceId };
   }
-  const result = await searchData.find(serviceIdRemove);
+  const result = await searchData.find(serviceIdRemove).populate('service');
+  return result;
+};
+// get single service
+const singleSlot = async (_id: string) => {
+  const result = await SlotModel.findOne({ _id }).populate('service');
+
+  return result;
+};
+// update
+const updateSlot = async (_id: string, payload: Partial<SlotType>) => {
+  const result = await SlotModel.findByIdAndUpdate({ _id }, payload, {
+    new: true,
+  });
   return result;
 };
 export const allService = {
   slotCreateService,
   getAllSlot,
+  singleSlot,
+  updateSlot,
 };
