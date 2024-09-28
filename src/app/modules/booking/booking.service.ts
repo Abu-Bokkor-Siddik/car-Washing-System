@@ -1,14 +1,12 @@
-import mongoose from 'mongoose';
-import { ServiceModel } from '../service/service.model';
-import { SlotModel } from '../slot/slot.model';
-import { UserModel } from '../user/user.model';
+import { SlotModel } from './../slot/slot.model';
+
 import { BookingType } from './booking.interface';
-import ResponseError from '../../../error/response.error';
+
 import { StoreModel } from './booking.store.modle';
 import { NextFunction, Response } from 'express';
 import { startPayment } from '../payment/payment.utils';
 import { BookingModels } from './booking.model';
-import { object } from 'zod';
+
 
 const bookingDataDB = async (
   payload: BookingType,
@@ -57,7 +55,7 @@ const bookingDataDB = async (
   // console.log(slotId, 'slot id');
   // const object = new objectId 
   // const updateSlot = await SlotModel.findOne(
-  //   { _id:"66e47d25623b5d9c03bb2e37"}
+  //   {slotId}
   // );
   // const updateSlots = await SlotModel.findById(
   //   { _id:new mongoose.Types.ObjectId(slotId)}

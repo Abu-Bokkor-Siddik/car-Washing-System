@@ -10,4 +10,5 @@ export type ReviewType={
     ratingValue:number;
     feedBack:string;
     userEmail:string;
+    name:string;
 }

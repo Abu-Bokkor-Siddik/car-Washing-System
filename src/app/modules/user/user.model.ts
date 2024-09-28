@@ -58,6 +58,11 @@ const ReviewSchema = new Schema<ReviewType>({
         type:String,
         required:true
     },
+    name:{
+        type:String,
+        required:true
+    },
+
     
 },
 {
