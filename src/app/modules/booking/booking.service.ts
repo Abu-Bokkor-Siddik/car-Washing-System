@@ -9,7 +9,7 @@ import { BookingModels } from './booking.model';
 
 
 const bookingDataDB = async (
-  payload: BookingType,
+  payload:Partial<BookingType>,
   email: string,
   res: Response,
   next: NextFunction,

@@ -8,7 +8,7 @@ router.get('/slots/availability',allSlotController.getSlotController);
 router.get('/slot/:id', allSlotController.singleSlotController);
 router.put(
     '/slot/:id',
-    authentic('admin'),
+    // authentic('admin'),
     allSlotController.updateSlotContoller
   );
 export const slotRoute = router;

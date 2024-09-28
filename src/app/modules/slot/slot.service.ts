@@ -1,7 +1,7 @@
 /* eslint-disable prefer-const */
 import { SlotType } from './slot.interface';
 import { SlotModel } from './slot.model';
-const slotCreateService = async (payload: SlotType) => {
+const slotCreateService = async (payload:SlotType) => {
   const { service, date, startTime, endTime } = payload;
   // convert in to number .
   const startInNumber =
@@ -47,7 +47,7 @@ const getAllSlot = async (query: Record<string, unknown>) => {
     dates = query?.date as string;
   }
   // get
-  const slot = 'available';
+  
   const findAvailable = SlotModel.find().populate('service');
   const searchData = findAvailable.find({
     date: { $regex: dates },
@@ -74,6 +74,8 @@ const updateSlot = async (_id: string, payload: Partial<SlotType>) => {
   const result = await SlotModel.findByIdAndUpdate({ _id }, payload, {
     new: true,
   });
+  console.log(_id,'come',payload)
+  console.log(result)
   return result;
 };
 export const allService = {

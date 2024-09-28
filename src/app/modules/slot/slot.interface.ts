@@ -5,5 +5,5 @@ import { Types } from "mongoose"
     date:string,
     startTime:string,
     endTime:string,
-    isBooked?: string |undefined,
+    isBooked?: string,
 }
