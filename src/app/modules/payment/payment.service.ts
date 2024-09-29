@@ -22,7 +22,7 @@ const confirmationService = async (transactionId: string,status:string) => {
   }else{
     message="Payment failed"
   }
-const filePath =join(__dirname,'../../../views/confirmation.html')
+const filePath =join(__dirname,'../../../../public/success.html')
 let template =readFileSync(filePath,'utf-8')
 // 
 template=template.replace(`{{message}}`,message as string)

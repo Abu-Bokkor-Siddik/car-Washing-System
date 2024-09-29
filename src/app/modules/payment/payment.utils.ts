@@ -4,12 +4,14 @@ import config from '../../config';
 
  export const startPayment = async (paymentData:any) => {
   console.log(paymentData.transactionId,'only id')
+//   http://localhost:3000/
+// http://localhost:3000/
 try {
   const res = await axios.post(config.payment_URL!, {
     store_id: config.store_id,
     tran_id: paymentData.transactionId,
-    success_url: `http://localhost:3000/api/confirmation?transactionId=${paymentData.transactionId}&status=success`,
-    fail_url: `http://localhost:3000/api/confirmation?status=faild`,
+    success_url: `https://carwashing.vercel.app/api/confirmation?transactionId=${paymentData.transactionId}&status=success`,
+    fail_url: `https://carwashing.vercel.app/api/confirmation?status=faild`,
     cancel_url: 'http://localhost:5173/',
     amount: paymentData.amount,
     currency: 'BDT',

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { slotRoute } from './app/modules/slot/slot.route';
 
 import config from './app/config';
@@ -10,6 +11,7 @@ import { globalErrorHandles } from './app/middleware/globalErrorHandler';
 import { notFound } from './app/middleware/NotFound';
 import { bookingRouter } from './app/modules/booking/booking.router';
 import { paymentRoute } from './app/modules/payment/payment.route';
+import path from 'path';
 const app = express();
 app.use(express.json());
 app.use(cors({origin:true, credentials: true }));
@@ -20,6 +22,7 @@ app.use('/api', serviceRouter);
 app.use('/api', slotRoute);
 app.use('/api', bookingRouter);
 app.use('/api', paymentRoute);
+app.use(express.static(path.join(__dirname,'public')));
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
